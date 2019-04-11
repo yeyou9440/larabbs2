@@ -14,6 +14,26 @@ class SeedCategoriesData extends Migration
     public function up()
     {
         //
+        $categories = [
+            [
+                'name'   => '分享',
+                'description'  => '分享创造，分享发现',
+            ],
+            [
+                'name'   => '教程',
+                'description'  => '奇淫技巧',
+            ],
+            [
+                'name'   => '问答',
+                'description'  => '互相帮助',
+            ],
+            [
+                'name'   => '公告',
+                'description'  => '站点公告',
+            ],
+        ];
+
+        DB::table('categories')->insert($categories);
     }
 
     /**
@@ -24,5 +44,6 @@ class SeedCategoriesData extends Migration
     public function down()
     {
         //
+        $DB::table('categories')->truncate();
     }
 }
