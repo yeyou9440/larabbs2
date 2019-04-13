@@ -47,8 +47,10 @@ class TopicsController extends Controller
 
 	public function edit(Topic $topic)
 	{
+        $categories = Category::all();
         $this->authorize('update', $topic);
-		return view('topics.create_and_edit', compact('topic'));
+
+		return view('topics.create_and_edit', compact('topic','categories'));
 	}
 
 	public function update(TopicRequest $request, Topic $topic)
@@ -56,7 +58,7 @@ class TopicsController extends Controller
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
 
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
+		return redirect()->route('topics.show', $topic->id)->with('success', 'Updated successfully.');
 	}
 
 	public function destroy(Topic $topic)
@@ -64,7 +66,7 @@ class TopicsController extends Controller
 		$this->authorize('destroy', $topic);
 		$topic->delete();
 
-		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
+		return redirect()->route('topics.index')->with('success', 'Deleted successfully.');
 	}
 
     public function uploadImage(Request $request, ImageUploadHandler $uploader)
