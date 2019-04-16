@@ -6,16 +6,21 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Auth;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use Notifiable; use MustVerifyEmailTrait;
+     use MustVerifyEmailTrait;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    use Notifiable {
+        notify as protected laravelNotify;
+    }
+
     protected $fillable = [
         'name', 'email', 'password', 'introduction' , 'avatar'
     ];
@@ -48,5 +53,15 @@ class User extends Authenticatable implements MustVerifyEmailContract
 
     public function isAuthorOf($model){
         return $this->id == $model->user->id;
+    }
+
+    public function notify($instance){
+        if($this->id == Auth::id()){
+            return ;
+        }
+        if(method_exists($instance , 'toDatabase')){
+            $this->increment('notification_count');
+        }
+        $this->laravelNotify($instance);
     }
 }
