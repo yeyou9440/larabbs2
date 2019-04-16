@@ -28,4 +28,8 @@ class ReplyObserver
     {
         //
     }
+
+    public function deleted(Reply $reply){
+        $reply->topic->updateReplyCount();
+    }
 }
