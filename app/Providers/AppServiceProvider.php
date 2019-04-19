@@ -11,10 +11,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-        //
-    }
+
 
     /**
      * Bootstrap any application services.
@@ -29,5 +26,13 @@ class AppServiceProvider extends ServiceProvider
 
         //
         \Carbon\Carbon::setLocale('zh');
+    }
+
+    public function register()
+    {
+        //
+        if(app()->isLocal()){
+            $this->app->register(\VIACreative\SudoSu\ServiceProvider::class);
+        }
     }
 }
