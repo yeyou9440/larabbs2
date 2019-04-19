@@ -44,5 +44,10 @@ class UsersTableSeeder extends Seeder
         $user->avatar = 'http://larabbs.test/uploads/images/avatars/201904/10/1_1554882568_7v5vkpb90P.jpg';
         $user->save();
 
+        $user->assignRole('Founder');
+
+        $user = User::find(2);
+        $user->assignRole('Maintainer');
+
     }
 }
